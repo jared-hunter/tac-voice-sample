@@ -1,0 +1,24 @@
+{
+  "name": "tac-voice-sample",
+  "version": "1.0.0",
+  "description": "Twilio Agent Connect sample — Voice + SMS with a Claude AI agent",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.51.0",
+    "dotenv": "^16.4.5",
+    "twilio-agent-connect": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}
