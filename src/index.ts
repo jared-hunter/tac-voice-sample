@@ -29,5 +29,5 @@ tac.onConversationEnded(({ session }) => {
   clearConversation(String(session.conversationId));
 });
 
-const server = new TACServer(tac);
+const server = new TACServer(tac, {port: 3000});
 await server.start();
