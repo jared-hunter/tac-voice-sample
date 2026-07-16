@@ -13,8 +13,8 @@ import { handleMessage, clearConversation } from './agents/index.js';
 const tac = await TAC.create({ config: TACConfig.fromEnv() });
 
 // Register channels
-const voiceChannel = new VoiceChannel(tac);
-const smsChannel = new SMSChannel(tac);
+const voiceChannel = new VoiceChannel(tac, {memoryMode: "always"});
+const smsChannel = new SMSChannel(tac, {memoryMode: "always"});
 
 tac.registerChannel(voiceChannel);
 tac.registerChannel(smsChannel);
@@ -29,5 +29,5 @@ tac.onConversationEnded(({ session }) => {
   clearConversation(String(session.conversationId));
 });
 
-const server = new TACServer(tac);
+const server = new TACServer(tac, {port: 3000});
 await server.start();
