@@ -105,8 +105,13 @@ export async function handleMessage(tac: TAC, params: {
 
   if (intent === "INTENT_DETECTION"){
     
-    intents.set(convId, reply);
-    return handleMessage(tac, { conversationId, message, memory, session })
+    if(Object.values(AGENT_NAMES).includes(reply as AGENT_NAMES)) {
+      intents.set(convId, reply);
+      return handleMessage(tac, { conversationId, message, memory, session })
+    } else {
+      history.push({ role: 'assistant', content: reply });
+      return reply;
+    }
 
   } else if (reply === "CHANGE_INTENT"){
     intents.set(convId, "INTENT_DETECTION");

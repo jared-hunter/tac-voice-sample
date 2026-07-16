@@ -28,7 +28,11 @@ export const AGENTS : Record<string, AGENT> = {
             - SCHEDULING_APPOINTMENT - customer wants to schedule an appointment with a representative
             - UNKNOWN - its not clear what the customer is asking for
 
-            responses should be returned as a single word.  For Example  "SALES"
+            ## Important Notes
+                responses should be returned as a single word that represents the category.  For Example  "SALES" or "BILLING_INQUIRY" - even if you think there is other important information to know
+                ignore it, you should never respond with anything more than the category identified from the last comment from the customer.
+
+            Do not use markdown, asterisks, bullets, or emojis.
         `,
         tools: []
     },
