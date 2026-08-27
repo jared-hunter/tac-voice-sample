@@ -36,30 +36,13 @@ VoiceChannel  SMSChannel
 
 ## Setup
 
-### 1. Install the TAC TypeScript SDK
-
-TAC is not yet published to npm. Clone and build it alongside this project:
-
-```bash
-git clone https://github.com/twilio/twilio-agent-connect-typescript.git
-cd twilio-agent-connect-typescript
-npm install && npm run build
-cd ..
-```
-
-Then, in `package.json`, update the `twilio-agent-connect` dependency path if you cloned it locally:
-
-```json
-"twilio-agent-connect": "file:../twilio-agent-connect-typescript"
-```
-
-### 2. Install dependencies
+### 1. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Configure environment variables
+### 2. Configure environment variables
 
 ```bash
 cp .env.example .env
@@ -79,7 +62,7 @@ Fill in `.env`:
 | `TWILIO_MEMORY_STORE_ID` | (Optional) Conversation Memory store ID |
 | `ANTHROPIC_API_KEY` | Your Anthropic API key |
 
-### 4. Expose your local server
+### 3. Expose your local server
 
 ```bash
 ngrok http 3000
@@ -87,14 +70,13 @@ ngrok http 3000
 
 Set `TWILIO_VOICE_PUBLIC_DOMAIN` to the ngrok hostname (e.g. `abc123.ngrok.io`, no `https://`).
 
-### 5. Configure Twilio webhooks
+### 4. Configure Twilio webhooks
 
 In the [Twilio Console](https://console.twilio.com/), set your phone number's:
 
-- **Voice webhook** → `https://<your-domain>/voice`
-- **SMS webhook** → `https://<your-domain>/sms`
+- **Voice webhook** → `https://<your-domain>/twiml`
 
-### 6. Run
+### 5. Run
 
 ```bash
 # Development (tsx, no compile step)
@@ -107,19 +89,11 @@ npm run build && npm start
 ## How it works
 
 1. An inbound call or SMS arrives at your Twilio number.
-2. TAC's `VoiceChannel` or `SMSChannel` handles the Twilio protocol (TwiML, ConversationRelay WebSocket for voice; webhook for SMS).
+2. TAC's `VoiceChannel` handles the Twilio protocol (TwiML, ConversationRelay WebSocket for voice).
 3. TAC invokes `onMessageReady` with the user's message plus any Twilio Conversation Memory context.
 4. `src/agent.ts` appends the message to the per-conversation history, calls Claude with the full history, and returns the reply.
-5. TAC sends the reply back to the caller or SMS sender.
+5. TAC sends the reply back to the caller.
 6. When the conversation ends, history is cleared to free memory.
-
-## Customising the agent
-
-Edit `src/agent.ts`:
-
-- Change `SYSTEM_PROMPT` to give the agent a different persona or instructions.
-- Change `model` to another Claude model (e.g. `claude-opus-4-8` for higher capability).
-- Add tool use via `anthropic.messages.create({ tools: [...] })` for function calling.
 
 ## License
 
